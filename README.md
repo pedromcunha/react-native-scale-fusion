@@ -8,15 +8,11 @@ React native support for scalefusion SDK
 npm install react-native-scale-fusion
 ```
 
+Make sure your device is configured with the SF MDM and authorized to access the SDK.
+
 ## Usage
 
-```js
-import { multiply } from "react-native-scale-fusion";
-
-// ...
-
-const result = await multiply(3, 7);
-```
+Just import the react native library into your application and then the functionality will be available to you. Currently only android is supported as there is no SF SDK for iOS yet. Follow the example project for a deeper look at usage details.
 
 ## Contributing
 
