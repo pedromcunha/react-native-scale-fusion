@@ -1,6 +1,6 @@
 {
   "name": "react-native-scale-fusion",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "React native support for scalefusion SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -29,7 +29,9 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "yarn example && yarn && yarn pods",
+    "clean:example": "cd ./example/android && ./gradlew clean && ./gradlew --stop; cd ../../",
+    "clean:module": "cd ./android ./gradlew clean && ./gradlew --stop; cd ../"
   },
   "keywords": [
     "react-native",

@@ -1,22 +1,35 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules } from 'react-native';
 
-const LINKING_ERROR =
-  `The package 'react-native-scale-fusion' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
-
-const ScaleFusion = NativeModules.ScaleFusion
-  ? NativeModules.ScaleFusion
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
-  return ScaleFusion.multiply(a, b);
+export enum ScaleFusionResponseError {
+  ACTION_NOT_SUPPORTED = 'ACTION_NOT_SUPPORTED',
+  NOT_AUTHORIZED = 'NOT_AUTHORIZED',
+  DEVICE_CURRENTLY_UNMANAGED = 'DEVICE_CURRENTLY_UNMANAGED',
+  ERROR = 'ERROR',
 }
+
+export interface ScaleFusionDeviceData {
+  mdmDeviceId: string;
+  isEnrolled: boolean;
+  isManaged: boolean;
+  deviceName: string;
+  imei: string;
+  serialNumber: string;
+  gsmSerialNumber: string;
+  buildSerialNumber: string;
+}
+
+type ScaleFusionType = {
+  getDeviceInfo(): Promise<ScaleFusionDeviceData>;
+  rebootDevice(): Promise<null>;
+  powerOffDevice(): Promise<null>;
+  launchWifi(): Promise<null>;
+  toggleHotspot(enable: Boolean): Promise<null>;
+  toggleMobileData(enable: Boolean): Promise<null>;
+  toggleFlightMode(enable: Boolean): Promise<null>;
+  toggleStatusBar(enable: Boolean): Promise<null>;
+  installPendingAppsNow(): Promise<null>;
+};
+
+const { ScaleFusion } = NativeModules;
+
+export default ScaleFusion as ScaleFusionType;
